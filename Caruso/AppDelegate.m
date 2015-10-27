@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CarusoViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    
+    
+    // determine the initial view controller here and instantiate it
+    CarusoViewController *viewController = [[CarusoViewController alloc] init];
+    
+    self.window.rootViewController = viewController;//making a view to root view
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
