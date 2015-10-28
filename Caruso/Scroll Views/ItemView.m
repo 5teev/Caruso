@@ -9,12 +9,13 @@
 #import "ItemView.h"
 #import "ItemViewModel.h"
 #import "Constants.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ItemView ()
 @property (nonatomic,strong,readwrite) NSString * shortMessage;
 @property (nonatomic,strong,readwrite) NSString * longMessage;
-
 @property (nonatomic,strong) UITextView * textView;
+@property (nonatomic,strong) UIImageView * imageView;
 
 @end
 
@@ -27,13 +28,19 @@
     if ( self )
     {
         // additional setup?
-        CGRect textViewRect = CGRectMake(ItemViewMargin, ItemViewMargin, CGRectGetWidth(frame) - 2.0f * ItemViewMargin, CGRectGetHeight(frame) - 2.0f * ItemViewMargin);
-        NSLog(@"I made a frame: %@", NSStringFromCGRect(textViewRect));
+
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ItemViewMargin, ItemViewMargin, 64.0f, 64.0f)];
+        self.imageView.backgroundColor = [UIColor grayColor];
+        [self addSubview:self.imageView];
+
+        CGRect textViewRect = CGRectMake(CGRectGetMaxX(self.imageView.frame) + ItemViewMargin, ItemViewMargin, CGRectGetWidth(frame) - 2.0f * ItemViewMargin - CGRectGetMaxX(self.imageView.frame), CGRectGetHeight(frame) - 2.0f * ItemViewMargin);
+
         _textView = [[UITextView alloc] initWithFrame:textViewRect];
         self.textView.font = [UIFont systemFontOfSize:ItemTextHeight];
         self.textView.backgroundColor = [UIColor colorWithRed:0.25 green:0.25 blue:0.25 alpha:0.25];
         self.textView.textColor = [UIColor whiteColor];
         [self addSubview:self.textView];
+
     }
 
     return self;
@@ -53,6 +60,7 @@
 - (void) setViewModel:(ItemViewModel *)viewModel {
     _viewModel = viewModel;
     self.textView.text = self.viewModel.shortDescription;
+    [self.imageView setImageWithURL:self.viewModel.thumbURL];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
